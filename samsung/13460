@@ -24,7 +24,7 @@ pair<pair<int,int>,pair<int,int>> left(map<pair<int, int>, char> fd, pair<pair<i
 	else {
 		while (!(fd[{b_x-1, b_y}] == '#') &&  !(g.first == b_x && g.second == b_y)) {
 			--b_x;
-			if(g.first == b_x-1 && g.second == b_y)
+			if(g.first == b_x && g.second == b_y)
 				return { {b_x,b_y},{b_x,b_y} };
 		}
 		while (!(fd[{r_x-1, r_y}] == '#') && !(r_x -1 == b_x && r_y == b_y) && !(g.first == r_x && g.second == r_y)) {
@@ -42,22 +42,20 @@ pair<pair<int, int>, pair<int, int>> right(map<pair<int, int>, char> fd, pair<pa
 	if (r_x < b_x) {
 		while (!(fd[{b_x+1, b_y}] == '#') && !(g.first == b_x && g.second == b_y)) {
 			++b_x;
-			if (g.first == b_x+1 && g.second == b_y)
+			if (g.first == b_x && g.second == b_y)
 				return { {b_x,b_y},{b_x,b_y} };
 		}
 		while (!(fd[{r_x+1, r_y}] == '#') && !(r_x+1== b_x && r_y==b_y) && !(g.first == r_x && g.second == r_y)) {
 			++r_x;
-			if ((r_x + 1 == b_x && b_y == r_y) && (g.first == r_x+1 && g.second == r_y))
-				return { {b_x,b_y},{b_x,b_y} };
 		}
 	}
 	else {
 		while (!(fd[{r_x+1, r_y}] == '#') && !(g.first == r_x && g.second == r_y)) {
 			++r_x;
 		}
-		while (!(fd[{b_x+1, b_y}] == '#') && !(b_x + 1 == r_x && b_y == b_x) && !(g.first == b_x && g.second == b_y)) {
+		while (!(fd[{b_x+1, b_y}] == '#') && !(b_x + 1 == r_x && b_y == r_y) && !(g.first == b_x && g.second == b_y)) {
 			++b_x;
-			if ((b_x +1 == r_x && b_y == r_y) && (g.first == b_x+1 && g.second == b_y))
+			if (g.first == b_x+1 && g.second == b_y)
 				return { {b_x,b_y},{b_x,b_y} };
 		}
 	}
@@ -69,11 +67,11 @@ pair<pair<int, int>, pair<int, int>> up(map<pair<int, int>, char> fd, pair<pair<
 	if (r_y < b_y) {
 		while (!(fd[{b_x, b_y+1}] == '#') && !(g.first == b_x && g.second == b_y)) {
 			++b_y;
+			if (g.first == b_x && g.second == b_y)
+				return { {b_x,b_y},{b_x,b_y} };
 		}
 		while (!(fd[{r_x, r_y+1}] == '#') && !(r_y + 1 == b_y && r_x == b_x) && !(g.first == r_x && g.second == r_y)) {
 			++r_y;
-			if ((r_y + 1 == b_y && r_x == b_x) && (g.first == r_x && g.second == r_y+1))
-				return { {b_x,b_y},{b_x,b_y} };
 		}
 	}
 	else {
@@ -82,7 +80,7 @@ pair<pair<int, int>, pair<int, int>> up(map<pair<int, int>, char> fd, pair<pair<
 		}
 		while (!(fd[{b_x, b_y+1}] == '#') && !(b_y + 1 == r_y && b_x == r_x) && !(g.first == b_x && g.second == b_y)) {
 			++b_y;
-			if ((b_y + 1 == r_y && r_x == b_x) && (g.first == b_x && g.second == b_y+1))
+			if (g.first == b_x && g.second == b_y+1)
 				return { {b_x,b_y},{b_x,b_y} };
 		}
 	}
@@ -92,29 +90,29 @@ pair<pair<int, int>, pair<int, int>> down(map<pair<int, int>, char> fd, pair<pai
 	int r_x = rb.first.first, r_y = rb.first.second;
 	int b_x = rb.second.first, b_y = rb.second.second;
 	if (r_y > b_y) {
-		while (!(fd[{b_x, b_y-1}] == '#') && !(g.first == b_x && g.second == b_y)) {
+		while (!(fd[{b_x, b_y-1}] == '#')) {
 			--b_y;
+			if (g.first == b_x && g.second == b_y)
+				return { {b_x,b_y},{b_x,b_y} };
 		}
 		while (!(fd[{r_x, r_y-1}] == '#') && !(r_y-1  == b_y && r_x == b_x) && !(g.first == r_x && g.second == r_y)) {
 			--r_y;
-			if ((r_y - 1 == b_y && r_x == b_x) && (g.first == r_x && g.second == r_y-1))
-				return { {b_x,b_y},{b_x,b_y} };
 		}
 	}
 	else {
 		while (!(fd[{r_x, r_y-1}] == '#') && !(g.first == r_x && g.second == r_y)) {
 			--r_y;
 		}
-		while (!(fd[{b_x, b_y-1}] == '#') && !(b_y - 1 == r_y && b_x == r_x) && !(g.first == b_x && g.second == b_y)) {
+		while (!(fd[{b_x, b_y-1}] == '#') && !(b_y - 1 == r_y && b_x == r_x)) {
 			--b_y;
-			if ((b_y - 1 == r_y && r_x == b_x) && (g.first == b_x && g.second == b_y-1))
+			if (g.first == b_x && g.second == b_y-1)
 				return { {b_x,b_y},{b_x,b_y} };
 		}
 	}
 	return { {r_x,r_y},{b_x,b_y} };
 }
 void bfs(int count, map<pair<int, int>, char> fd, queue<pair<pair<int, int>, pair<int, int>>> que){
-	if (count > 10)
+	if (count > 10 || (answer != -1 && answer <= count))
 		return;
 
 	pair<pair<int, int>, pair<int, int>> temp;
@@ -122,8 +120,8 @@ void bfs(int count, map<pair<int, int>, char> fd, queue<pair<pair<int, int>, pai
 	int b_x, b_y;
 	int size = que.size();
 	for (int a = 0; a < size; ++a) {
-		if (que.front().first == g || que.front().second == g) {
-			if (answer > count ||answer == -1)
+		if (que.front().first == g) {
+			if (answer > count || answer == -1)
 				answer = count;
 			return;
 		}
@@ -153,6 +151,7 @@ int main() {
 	int limit = 11;
 	int x, y;
 	map<pair<int, int>, char> fd;
+	//freopen("Input.txt", "r", stdin);
 	cin >> y >> x;
 	char value;
 	queue<pair<pair<int, int>, pair<int, int>>> que;
