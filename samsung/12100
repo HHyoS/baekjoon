@@ -9,11 +9,10 @@ int big = 0;
 int size = 0;
 map<pair<int, int>, pair<int, int>> up(map<pair<int, int>, pair<int, int>> map) {
 	for (int a = 1; a < n; ++a) {
-		for (int b = 1; b < n; ++b) {
-			if (!(map[{a, b}].first == 0) && (map[{a, b}].first == map[{a, b + 1}].first) && (map[{a, b}].second == 0 && map[{a, b}].second == 0)) {
-				map[{a, b + 1}].first *= 2;
-				map[{a, b + 1}].second = 1;
-				map[{a, b}].first = 0;
+		for (int b = n; b > 1; --b) {
+			if(map[{a,b}].first != 0){
+				for (int c = b - 1; c > 0; --c) {
+				} // 해당 위치가 0이면 넘어가고 0이 아니면 비교해서 같으면 합치고 다르면 map[{a,b}] 밑으로 옮기기
 			}
 		}
 	}
@@ -29,8 +28,24 @@ map<pair<int, int>, pair<int, int>> up(map<pair<int, int>, pair<int, int>> map) 
 	return map;
 }
 map<pair<int, int>, pair<int, int>> down(map<pair<int, int>, pair<int, int>> map) {
-	for (int a = 1; a <= n; ++a) {
-		for (int b = n; b > 0; --b) {
+	for (int b = 1; b < n; ++b) {
+		for (int a = 1; a < n; ++b) {
+			while (map[{a, b}].first == 0)
+				
+			if (!(map[{a, b}].first == 0) && (map[{a, b}].first == map[{a, b - 1}].first) && (map[{a, b}].second == 0 && map[{a, b}].second == 0)) {
+				map[{a, b}].first *= 2;
+				map[{a, b }].second = 1;
+				map[{a, b - 1}].first = 0;
+			}
+		}
+	}
+	for (int a = 1; a < n; ++a) {
+		for (int b = 1; b < n; ++b) {
+			map[{a, b}].second = 0;
+			if ((map[{a, b}].first != 0) && (map[{a, b + 1}].first == 0)) {
+				map[{a, b + 1}].first = map[{a, b}].first;
+				map[{a, b}].first == 0;
+			}
 		}
 	}
 	return map;
