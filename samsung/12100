@@ -1,0 +1,77 @@
+#include <string>
+#include <map>
+#include <utility>
+#include <iostream>
+#include <queue>
+using namespace std;
+int n = 0;
+int big = 0;
+int size = 0;
+map<pair<int, int>, pair<int, int>> up(map<pair<int, int>, pair<int, int>> map) {
+	for (int a = 1; a < n; ++a) {
+		for (int b = 1; b < n; ++b) {
+			if (!(map[{a, b}].first == 0) && (map[{a, b}].first == map[{a, b + 1}].first) && (map[{a, b}].second == 0 && map[{a, b}].second == 0)) {
+				map[{a, b + 1}].first *= 2;
+				map[{a, b + 1}].second = 1;
+				map[{a, b}].first = 0;
+			}
+		}
+	}
+	for (int a = 1; a < n; ++a) {
+		for (int b = 1; b < n; ++b) {
+			map[{a, b}].second = 0;
+			if ((map[{a, b}].first != 0) && (map[{a, b + 1}].first == 0)){
+				map[{a, b + 1}].first = map[{a, b}].first;
+				map[{a, b}].first == 0;
+			}
+		}
+	}
+	return map;
+}
+map<pair<int, int>, pair<int, int>> down(map<pair<int, int>, pair<int, int>> map) {
+	for (int a = 1; a <= n; ++a) {
+		for (int b = n; b > 0; --b) {
+		}
+	}
+	return map;
+}
+map<pair<int, int>, pair<int, int>> left(map<pair<int, int>, pair<int, int>> map) {
+	for (int a = 1; a <= n; ++a) {
+		for (int b = n; b > 0; --b) {
+		}
+	}
+	return map;
+}
+map<pair<int, int>, pair<int, int>> right(map<pair<int, int>, pair<int, int>> map) {
+	for (int a = 1; a <= n; ++a) {
+		for (int b = n; b > 0; --b) {
+		}
+	}
+	return map;
+}
+void dfs(map<pair<int, int>, pair<int, int>> map, int count) {
+	if (count == 5) {
+		for (int a = 1; a <= n; ++a) {
+			for (int b = 1; b <= n; ++b) {
+				if (map[{b, a}].first > big)
+					big = map[{a, b}].first;
+			}
+		}
+	}
+
+
+}
+int main() {
+	cin >> n;
+	map<pair<int, int>, pair<int,int>> mp;
+	int value = 0;
+	for (int a = n; a > 0; --a) {
+		pair<int, int> temp;
+		for (int b = 1; b <= n; ++b) {
+			cin >> value;
+			mp[{b, a}] = { value,0 };
+		}
+	}
+	dfs(mp, 0);
+	return 0;
+}
