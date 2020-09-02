@@ -27,7 +27,7 @@ map<pair<int, int>, int> up(map<pair<int, int>, int> map) {
 				}
 			}
 		}
-	}
+	} 
 	for (int a = 1; a <= n; ++a) { // 구슬병합
 		for (int b = n; b > 1; --b) {
 			if (map[{a, b}] == 0) {
