@@ -10,3 +10,4 @@ int main() {
 	printf("%d\n",((a%c)*(b%c))%c);
 	return 0;
 }
+ 
