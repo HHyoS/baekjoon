@@ -19,7 +19,12 @@ void dfs(int start, int now, int after,bool check[], int sum, int deep) {
     
     for (int a = 0; a < n; ++a) {
         if (check[a] == false && ar[after][a] != 0) {
-            dfs(start ,after, a, check, sum, deep+1);
+            if (deep == n - 1) {
+                if (ar[a][start] != 0)
+                    dfs(start, after, a, check, sum, deep + 1);
+            }
+            else
+                dfs(start, after, a, check, sum, deep + 1);
             check[a] = false;
         }
     }
