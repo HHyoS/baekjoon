@@ -11,7 +11,7 @@ using namespace std;
 int main() {
 	int n;
 	cin >> n;
-	vector<int> r;
+	vector<int> r; 
 	long long answer = 0;
 	for (int a = 0; a < n; ++a) {
 		int v;
