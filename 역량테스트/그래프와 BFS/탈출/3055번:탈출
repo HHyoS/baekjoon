@@ -7,55 +7,73 @@ char map[51][51];
 bool check[51][51];
 
 int main(void) {
+  // freopen("input.txt", "r", stdin);
     int n, m;
-    pair<int,int> goal;
-    pair<int, int> go;
-    queue<pair<int, int>> que;
-    queue<pair<int, int>> qu;
-   // freopen("input.txt", "r", stdin);
-    int xy[4][2] = { {0,1},{0,-1},{1,0},{-1,0} };
     scanf("%d%d", &n, &m);
+    int ar[4][2] = { {0,1},{0,-1},{1,0},{-1,0} };
+    queue<pair<int, int>> S;
+    pair<int, int> D;
+    queue<pair<int, int>> water;
+    int count = 0;
+
     for (int a = 1; a <= n; ++a) {
         for (int b = 1; b <= m; ++b) {
-            scanf("%c", map[a][b]);
+            scanf(" %c", &map[a][b]);
             if (map[a][b] == 'D') {
-                goal = { a,b };
+                D = { a,b };
             }
             else if (map[a][b] == 'S') {
-                go = { a,b };
-                map[a][b] = '.';
+                check[a][b] = 1;
+                S.push({ a,b });
             }
             else if (map[a][b] == '*') {
-                que.push({ a,b });
+                check[a][b] = 1;
+                water.push({ a,b });
             }
         }
     }
-    int count = 1;
-    while (!que.empty()) {
-        int size = que.size();
+    if (D == S.front())
+        printf("%d",count);
+
+    while (!S.empty()) {
+        ++count;
+        int size = water.size();
         for (int a = 0; a < size; ++a) {
-            pair<int, int> s = que.front();
-            que.pop();
+            pair<int, int> w = water.front();
+            water.pop();
             for (int b = 0; b < 4; ++b) {
-                if ((s.first + xy[b][0] >= 1) && (s.first + xy[b][0] <= n)
-                    && s.second + xy[b][1] >= 1 && s.second + xy[b][1] <= m
-                    && map[s.first + xy[b][0]][s.second + xy[b][1]] == '.') {
-                    map[s.first + xy[b][0]][s.second + xy[b][1]] = '*';
-                    que.push({ s.first + xy[b][0],s.second + xy[b][1] });
-                }
-        }
-            size = qu.size();
-            for(int a =0; a < size; ++a){
-                pair<int, int> s = qu.front();
-                qu.pop();
-                for (int b = 0; b < 4; ++b) {
-                    if ((s.first + xy[b][0] >= 1) && (s.first + xy[b][0] <= n)
-                        && s.second + xy[b][1] >= 1 && s.second + xy[b][1] <= m
-                        && map[s.first + xy[b][0]][s.second + xy[b][1]] == '.') {
-                        qu.push({ s.first + xy[b][0],s.second + xy[b][1]});
+                int x = w.first + ar[b][0];
+                int y = w.second + ar[b][1];
+                if (x >= 1 && x <= n &&y >= 1 && y <= m) {
+                    if (map[x][y] == '.') {
+                        check[x][y] = 1;
+                        map[x][y] = '*';
+                        water.push({ x,y });
                     }
                 }
+            }
+        }
+        int ssize = S.size();
+        for (int a = 0; a < ssize; ++a) {
+            pair<int, int> g = S.front();
+            S.pop();
+            for (int b = 0; b < 4; ++b) {
+                int x = g.first + ar[b][0];
+                int y = g.second + ar[b][1];
+                if (x >= 1 && x <= n && y >= 1 && y <= m && !check[x][y]) {
+                    if (map[x][y] == 'D') {
+                        printf("%d", count);
+                        return 0;
+                    }
+                    else if (map[x][y] == '.') {
+                        check[x][y] = 1;
+                        S.push({ x,y });
+                    }
+                }
+            }
+        }
     }
+    printf("KAKTUS");
     return 0;
 
 }
