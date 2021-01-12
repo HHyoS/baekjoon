@@ -29,4 +29,32 @@ P1 = 5, P2 = 2, P3 = 8, P4 = 10인 경우에는 카드가 2개 들어있는 카�
 
 문제 풀이
 
-기존에 풀었던 [ 카드 구매하기 ]
+기존에 풀었던 카드 구매하기 https://github.com/HHyoS/baekjoon/tree/master/%EC%97%AD%EB%9F%89%ED%85%8C%EC%8A%A4%ED%8A%B8/DP/%EC%B9%B4%EB%93%9C%EA%B5%AC%EB%A7%A4%ED%95%98%EA%B8%B0
+
+문제와 비슷한 문제로 주어진 카드의 갯수를 최소의 비용으로 얻는 문제였습니다.
+
+dp 풀이방식을 이용하여 2중 for문을 통해 카드 n장을 얻을때 최소 값이 저장된 arr배열을 갱신하며 최종적으로
+
+arr[n]을 구하는 방식으로 문제를 해결하였습니다.
+
+#include <cstdio>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    int arr[1001] = { 0,};
+    int n;
+
+    scanf("%d",&n);
+    for (int a = 1; a <= n; ++a) {
+        scanf("%d", &arr[a]);
+    }
+    for (int a = 1; a <= n; ++a) {
+        for (int b = 1; b <= a; ++b) {
+                arr[a] = min(arr[a], arr[b] + arr[a-b]);
+            
+        }
+    }
+    printf("%d", arr[n]);
+    return 0;
+}
