@@ -1,0 +1,24 @@
+#include <cstdio>
+#include <queue>
+using namespace std;
+
+
+int main() {
+    int n;
+    int arr[10000 + 1];
+    queue<pair<int, long long>> que;
+    scanf("%d", &n);
+    for (int a = 1; a <= n; ++a)
+        scanf("%d", &arr[a]);
+    
+    que.push({ 1,arr[1] });
+    que.push({ 0,0 });
+    for (int a = 2; a <= n; ++a) {
+        while (!que.empty()) {
+            int v = que.front.second;
+            int count = que.front.first;
+            if(count == 3 )
+        }
+    }
+    return 0;
+}
