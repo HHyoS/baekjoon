@@ -1,63 +1,26 @@
 #include <cstdio>
 #include <algorithm>
-#include <queue>
+#include <cmath>
 using namespace std;
 
-long long ar[100000+1] = { 0, };
-long long ch[100000+1] = { 0, };
-int main() {
-    int n;
-    scanf("%d", &n);
-    for (int a = 1; a < n; ++a) {
-        ar[a] = a * a;
-        ch[a] = a;
-    }
-    ch[n] = n;
-    queue<int> que;
-    que.push(0);
-    int count = 1;
-    while (!que.empty()) {
-        int size = que.size();
-        for (int a = 0; a < size; ++a) {
-            int num = que.front();
-            que.pop();
-            for (int b = 1; b < n; ++b) {
-                if ((num + ar[b] <= n) && ch[num+ar[b]] >= count) {
-                    ch[num + ar[b]] = count;
-                    que.push(num + ar[b]);
-                }
-            }
-        }
-        count = count + 1;
-    }
-    printf("%d", ch[n]);
-    return 0;
-}
-// 2차 -> 틀림... 찾는중
-
-#include <cstdio>
-#include <algorithm>
-using namespace std;
-
-long long ch[100000+1] = { 0, };
+int ch[100000+1] = { 0, };
 int main() {
     int n;
     scanf("%d", &n);
     for (int a = 1; a <= n; ++a) {
-        if (a * a <= n)
+        if (a <= 316)
             ch[a * a] = 1;
+
         if (ch[a] == 0)
             ch[a] = a;
         
     }
     for (int a = 1; a <= n; ++a) {
-        for (int b = a - 1; b > 0; --b) {
-            if (ch[b] == 1) {
-                ch[a] = min(ch[a], ch[a - b] + 1);
-                break;
+        for (int b = 1; b <=sqrt(a); ++b) {
+            if (ch[a] != 1)
+                ch[a] = min(ch[a], ch[a - (b*b)] + 1);
             }
-        }
     }
-    printf("%lld", ch[n]);
+    printf("%d", ch[n]);
     return 0;
-}
+} // 통과는 됬으나 개선부분 수정예정
