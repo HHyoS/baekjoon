@@ -3,11 +3,32 @@
 #include <cmath>
 using namespace std;
 #define M 1000000
-int arr[M] = { 0, };
 bool p[10] = { 0, };
+
+int cal(int v) {
+    int count = 0;
+    if (v == 0) {
+        if (p[0] == 0)
+            return 1;
+        else
+            return -1;
+    }
+    
+    while (v > 0) {
+        if (p[v % 10] == 0) {
+            v /= 10;
+            ++count;
+        }
+        else {
+            return -1;
+        }
+    }
+    return count;
+}
 int main() {
     int n,m;
     scanf("%d%d", &n,&m);
+    int answer = abs(100 - n);
     if (m > 0) {
         int a;
         while (m--) {
@@ -15,44 +36,22 @@ int main() {
             p[a] = 1;
         }
     }
-    for (int a = 0; a <= M; ++a) {
-        if (a <= 9 && p[a] == 0) {
-            arr[a] = 1;
-        }
-        else{
-            int temp = a;
-            int count = 0;
-            while (temp > 0) {
-                if (p[temp % 10] == 0) {
-                    temp /= 10;
-                    ++count;
-                }
-                else
-                    break;
-            }
-            if (temp == 0)
-                arr[a] = count;
-        }
-    }
-    arr[100] = 0;
-    if (n == 100) {
-        printf("0");
-        return 0;
-    }
-    int answer = abs(n - 100);
-    for (int a = n; a <= M; ++a) {
-        if ((arr[a] > 0)&&((arr[a] + abs(a - n)) < answer)) {
-            answer = arr[a] + abs(a - n);
-            break;
-        }
-    }
     for (int a = n; a >= 0; --a) {
-        if ((arr[a] > 0) && ((arr[a] + abs(n - a)) < answer)) {
-            answer = arr[a] + abs(n - a);
-            break;
+        if ((cal(a) != -1)) {
+            if (cal(a) + abs(n - a) < answer)
+                answer = cal(a) + abs(n - a);
+            else
+                break;
         }
     }
-
+    for (int a = n; a <= M; ++a) {
+        if ((cal(a) != -1)){
+            if (cal(a) + abs(n - a) < answer)
+                answer = cal(a) + abs(n - a);
+            else
+                break;
+        }
+    }
     printf("%d", answer);
     return 0;
 }
