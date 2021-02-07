@@ -2,8 +2,8 @@
 #include <algorithm>
 #include <cmath>
 using namespace std;
-
-bool arr[500000] = { 0, };
+#define M 1000000
+int arr[M] = { 0, };
 bool p[10] = { 0, };
 int main() {
     int n,m;
@@ -15,39 +15,40 @@ int main() {
             p[a] = 1;
         }
     }
-    for (int a = 0; a <= n; ++a) {
+    for (int a = 0; a <= M; ++a) {
         if (a <= 9 && p[a] == 0) {
             arr[a] = 1;
         }
         else{
             int temp = a;
+            int count = 0;
             while (temp > 0) {
-                if (p[temp % 10] == 0)
+                if (p[temp % 10] == 0) {
                     temp /= 10;
+                    ++count;
+                }
                 else
                     break;
             }
             if (temp == 0)
-                arr[a] = 1;
+                arr[a] = count;
         }
     }
-    arr[100] = 1;
+    arr[100] = 0;
     if (n == 100) {
         printf("0");
         return 0;
     }
     int answer = abs(n - 100);
-    for (int a = n; a <= 500000; ++a) {
-        if (arr[a] == 1 && (abs(a - n) < answer)) {
-            printf("a = %d , abs(a - n) = %d, answer = %d\n", a, abs(a - n), answer);
-            answer = abs(a - n);
+    for (int a = n; a <= M; ++a) {
+        if ((arr[a] > 0)&&((arr[a] + abs(a - n)) < answer)) {
+            answer = arr[a] + abs(a - n);
             break;
         }
     }
     for (int a = n; a >= 0; --a) {
-        if (arr[a] == 1 && (abs(n - a) < answer)) {
-            printf("a = %d , abs(a - n) = %d, answer = %d\n", a, abs(a - n), answer);
-            answer = abs(n - a);
+        if ((arr[a] > 0) && ((arr[a] + abs(n - a)) < answer)) {
+            answer = arr[a] + abs(n - a);
             break;
         }
     }
