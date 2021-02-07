@@ -1,0 +1,57 @@
+#include <cstdio>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+
+bool arr[500000] = { 0, };
+bool p[10] = { 0, };
+int main() {
+    int n,m;
+    scanf("%d%d", &n,&m);
+    if (m > 0) {
+        int a;
+        while (m--) {
+            scanf("%d", &a);
+            p[a] = 1;
+        }
+    }
+    for (int a = 0; a <= n; ++a) {
+        if (a <= 9 && p[a] == 0) {
+            arr[a] = 1;
+        }
+        else{
+            int temp = a;
+            while (temp > 0) {
+                if (p[temp % 10] == 0)
+                    temp /= 10;
+                else
+                    break;
+            }
+            if (temp == 0)
+                arr[a] = 1;
+        }
+    }
+    arr[100] = 1;
+    if (n == 100) {
+        printf("0");
+        return 0;
+    }
+    int answer = abs(n - 100);
+    for (int a = n; a <= 500000; ++a) {
+        if (arr[a] == 1 && (abs(a - n) < answer)) {
+            printf("a = %d , abs(a - n) = %d, answer = %d\n", a, abs(a - n), answer);
+            answer = abs(a - n);
+            break;
+        }
+    }
+    for (int a = n; a >= 0; --a) {
+        if (arr[a] == 1 && (abs(n - a) < answer)) {
+            printf("a = %d , abs(a - n) = %d, answer = %d\n", a, abs(a - n), answer);
+            answer = abs(n - a);
+            break;
+        }
+    }
+
+    printf("%d", answer);
+    return 0;
+}
