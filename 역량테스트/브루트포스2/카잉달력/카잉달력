@@ -1,0 +1,44 @@
+#include <cstdio>
+#include <algorithm>
+#include <cmath>
+#include <set>
+using namespace std;
+
+
+
+int main() {
+    int v;
+    set<pair<int, int>> s;
+    scanf("%d", &v);
+    for (int a = 0; a < v; ++a) {
+
+        int n, m, x, y;
+
+        int xx = 0;
+        int yy = 0;
+        int year = 0;
+        scanf("%d %d %d %d", &m,&n,&x,&y);
+        while (!((xx == x) && (yy == y))) {
+            ++xx;
+            ++year;
+            while (!(x == xx)) {
+               xx = (xx+1)%(m+1);
+               ++year;
+               printf("year = %d\n", year);
+            }
+            yy = year % n +1;
+            printf("%d %d %d\n", xx, yy,year);
+            if (!s.count({ xx,yy }))
+                s.insert({xx,yy}); 
+            else
+                break;
+        }
+    if ((xx == x) && (yy == y))
+        printf("%d", year);
+    else
+        printf("-1");
+
+    s.clear();
+    }
+    return 0;
+}
