@@ -13,3 +13,59 @@
 
 풀이
 
+ 주어진 4가지 숫자 m n x y 를 이용하여 <x:y> 가 될 수 있는 해가 몇년인지, 혹은 불가능한 연도인지 확인하는 문제입니다.
+
+이 문제를 처음에 해결할때는 연도를 하나씩 늘려가며 xx,yy 라는 변수를 선언하여 탐색을 진행하면서 xx와 x , yy와 y를 비교하여 문제를 해결하려고 하였으나
+
+그 방법으로는 메모리 초과가 발생했었고, 그 부분을 수정하여 ++xx 를 이용하여 xx만을 증가시키며 원하는 xx값을
+
+찾는 방법을 사용했을 떄는 시간초과가 발생하였습니다.
+
+그래서 시간초과를 해결하기 위해 생각을 하던중 처음 정해진 xx라는 변수를 사용하지 않고 year을 이용해서 x와 비교하는
+
+방법과 처음 x와 일치하는 year을 찾은 이후 다음 x와 일치하는 year은 year` = year + m 이라는 규칙을 발견하였습니다.
+
+그 방법을 사용하여 문제를 해결할 수 있었고, 실행시간을 줄이기 위해 year의 초기값이 x보다 1 작은 year = x-1이라는
+
+사실을 알아내어 실행시간을 조금더 줄일 수 있었습니다.
+
+#include <cstdio>
+#include <cmath>
+#include <cstring>
+using namespace std;
+ // x의 위치는 year % m +1 , y의 위치는 year % n + 1 로 표현 가능!
+
+
+bool arr[40001] = { 0, }; // 방문했던 y 위치인지 확인
+int main() {
+    int v;
+    scanf("%d", &v);
+    for (int a = 0; a < v; ++a) {
+
+        int n, m, x, y;
+
+        int year = 0;
+        scanf("%d %d %d %d", &m,&n,&x,&y);
+        year = x - 1; // 처음 year이 x와 일치할 때는 x-1 일떄이므로 초기값 세팅
+        while(true){
+        if (!arr[year % n + 1]) { // 방문을 안했던 y위치라면
+            if (year % n + 1 == y) // 해당 위치가 y와 같다면 while문 탈출
+                break;
+            else { // y와 같지않다면
+                arr[year % n + 1] = 1; // 방문했었음을 표시하고
+                year += m; // year은 다음 x값과 일치하는 위치로 이동
+            }
+
+        }
+        else // 방문했던 y위치라면 탈출
+            break;
+        }
+    if (year % n + 1 == y) // year의 값이 y의 위치와 같은 값이라면
+        printf("%d\n", year+1);
+    else // 아니라면
+        printf("-1\n");
+// 63~66번 라인의 코드를 while문 안의 52~53라인, 60~61라인으로 옮겼을 때 메모리 사용량이 더 늘어나 외부로 빼내어 작성.
+    memset(arr, 0, sizeof(arr));
+    }
+    return 0;
+}
