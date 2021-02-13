@@ -8,11 +8,11 @@ BOJ를 운영하는 회사 답게 사람에게 번호를 1부터 N까지로 배�
 
 N=4이고, S가 아래와 같은 경우를 살펴보자.
 
-i\j	1	2	3	4
-1	 	1	2	3
-2	4	 	5	6
-3	7	1	 	2
-4	3	4	5	 
+i\j
+    0 1	2	3	
+    4 0 5 6	
+    7 1 0 2
+    3 4 5 0	 
 예를 들어, 1, 2번이 스타트 팀, 3, 4번이 링크 팀에 속한 경우에 두 팀의 능력치는 아래와 같다.
 
 스타트 팀: S12 + S21 = 1 + 4 = 5
@@ -26,3 +26,81 @@ i\j	1	2	3	4
 
 풀이
 
+주어진 2의 배수인 n명이 n/2로 팀을 나눌 떄 조건에 맞추어 두 팀의 능력치의 차가 최소가 되게하는 팀 구성을 찾고
+
+최소값을 출력하는 문제입니다.
+
+해당 문제 해결을 위해 제가 생각한 방법은 
+
+(1) 주어진 입력을 바탕으로 n개의 입력을 받았을 때 n/2개의 선택을 할 때까지 dfs탐색 실시
+
+(2) n/2개의 선택이 완료되었을 때 선택받은 선수의 능력치 합과, 선택받지 못한 선수의 능려치 합을 구하여 수 두수의 차의 절대값과
+
+   현재까지 구한 능력치 최소값을 비교하여 최소값 저장
+
+(3) 모든 탐색이 종료되었을 때 최소값 출력
+
+
+(1)의 풀이를 위해 dfs를 시작하는 for문은 0부터 시작하여 입력받은 수 k/2 선수까지 탐색을 진행하고, 선택된 선수를 저장하는 배열 check 에 방문을 표시하며
+
+dfs탐색을 진행, 탐색 과정에서 다음 선수를 고르이 위해 이동할때는 다음 선수를 선택하는 경우와, 다음 선수를 선택하지 않는 경우 두가지로 dfs탐색 진행.
+
+(2) 선택이 완료되었을 경우, start팀과 link팀의 능력치 합을 저장하는 배열 start와 link를 선언하여 2중 for문을 통해
+
+선택된 선수들 간의 능력치합을 start, 선택되지 못한 선수 간의 능력치 합을 link에 저장 후, start와 link의 차의 절대값을
+
+최소값을 저장하는 변수 minn과 비교하여 최소값 저장.
+
+(3) 최소값 minn을 출력
+
+#include <cstdio>
+#include <cmath>
+#include <cstring>
+#include <string>
+using namespace std;
+
+
+int k;
+int v[20][20] = { 0, };
+bool check[20] = { 0, };
+int minn = 10001;
+void dfs(int index,int now) {
+    if (index == (k / 2)) {
+        int start = 0;
+        int link = 0;
+        for (int a = 0; a < k; ++a) {
+            for (int b = a + 1; b < k; ++b) {
+                if (check[a] && check[b])
+                    start += (v[a][b] + v[b][a]);
+                else if (!check[a] && !check[b])
+                    link += (v[a][b] + v[b][a]);
+            }
+        }
+        if (abs(start - link) < minn)
+            minn = abs(start - link);
+        return;
+    }
+
+    if (now + 1 < k) {
+        dfs(index, now + 1);
+        check[now] = 1;
+        dfs(index + 1, now + 1);
+        check[now] = 0;
+    }
+}
+int main() {
+ //   freopen("input.txt", "r", stdin);
+    scanf("%d", &k);
+    for (int a = 0; a < k; ++a) {
+        for (int b = 0; b < k; ++b) {
+            scanf("%d", &v[a][b]);
+        }
+    }
+    for (int a = 0; a <= k/2; ++a) {
+        check[a] = 1;
+        dfs(1,a+1);
+        check[a] = 0;
+    }
+    printf("%d", minn);
+    return 0;
+}
