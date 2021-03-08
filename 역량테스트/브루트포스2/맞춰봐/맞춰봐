@@ -8,83 +8,44 @@ using namespace std;
 
 int k;
 int n;
+vector<vector<int>> arr;
 char ar[57] = "";
-int answer[11] = { 0, };
+vector<vector<int>> answer;
 int num[21] = { -10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10 };
 int out = -1;
 void dfs(int v, int p) {
-    int cal = ar[p];
-    if (out == 1)
-        return;
-    if (p <= k) {
-        for (int a = 0; a < 21; ++a) {
-            int sum = num[a] + v;
-            if (cal == '-' && sum < 0) {
-                answer[p-1] = num[a];
-                dfs(sum, p + 1);
-            }
-            else if (cal == '+' && sum > 0) {
-                answer[p - 1] = num[a];
-                dfs(sum, p + 1);
-            }
-            else if (cal == '0' && sum == 0) {
-                answer[p - 1] = num[a];
-                dfs(sum, p + 1);
-            }
-        }
-    }
-    else {
-        for (int a = 1; a < k; ++a) {
-            int s = 0;
-            int cal = ar[p];
-            for (int b = a; b < k; ++b) {
-                s = s + answer[b];
-                if (cal == '+') {
-                    if (s < 0 || s == 0)
-                        return;
-                }
-                else if (cal == '-') {
-                    if (s == 0 || s > 0)
-                        return;
-                }
-                else if (cal == '0') {
-                    if (s != 0)
-                        return;
-                }
-                ++p;
-            }
-        }
-        for (int a = 0; a < k; ++a) {
-            printf("%d ", answer[a]);
-        }
-        out = 1;
-    }
-    return;
 }
 int main() {
- //   freopen("input.txt", "r", stdin);
+    freopen("input.txt", "r", stdin);
     scanf("%d", &k);
     n = k*(k + 1) / 2;
     for (int a = 0; a <= n; ++a)
         scanf("%1c", &ar[a]);
     char cal = ar[1];
-    for (int a = 0; a < 21; ++a) {
-        if (cal == '+') {
-            if (num[a] > 0) {
-                answer[0] = num[a];
-                dfs(num[a],2);
-            }
+    int t = k;
+    int q = 1;
+    for (int a = 0; a <= n; ++a)
+        printf("a = %d ll = %1c\n", a,ar[a]);
+    while (t) {
+        printf("%d ", q);
+        vector<int> temp;
+        if (ar[q] == '+') {
+            temp = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            answer.push_back(temp);
+            printf("q = %d ar[q] = %c\n",q,ar[q]);
         }
-        else if (cal == '-') {
-            if (num[a] < 0) {
-                answer[0] = num[a];
-                dfs(num[a],2);
-            }
+        else if (ar[q] == '0') {
+            temp = {0};
+            answer.push_back(temp);
+            printf("q = %d ar[q] = %c\n", q, ar[q]);
         }
-        else if (cal == '0' && num[a] == 0) {
-            answer[0] = 0;
-            dfs(num[a],2);
+        else {
+            temp = { -10,-9,-8,-7,-6,-5,-4,-3,-2,-1 };
+            answer.push_back(temp);
+            printf("q = %d ar[q] = %c\n", q, ar[q]);
         }
+        q = q + t--;
     }
+    for(int a = 0; a <)
     return 0;
-} // 시간초과 
+}
