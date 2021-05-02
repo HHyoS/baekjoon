@@ -1,51 +1,63 @@
-#include <cstdio>
-#include <cmath>
-#include <cstring>
-#include <string>
+#include<iostream>
 #include <vector>
+
 using namespace std;
 
+char map[11][11];
+int num;
+vector<int> v;
 
-int k;
-int n;
-vector<vector<int>> arr;
-char ar[57] = "";
-vector<vector<int>> answer;
-int num[21] = { -10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10 };
-int out = -1;
-void dfs(int v, int p) {
-}
-int main() {
-    freopen("input.txt", "r", stdin);
-    scanf("%d", &k);
-    n = k*(k + 1) / 2;
-    for (int a = 0; a <= n; ++a)
-        scanf("%1c", &ar[a]);
-    char cal = ar[1];
-    int t = k;
-    int q = 1;
-    for (int a = 0; a <= n; ++a)
-        printf("a = %d ll = %1c\n", a,ar[a]);
-    while (t) {
-        printf("%d ", q);
-        vector<int> temp;
-        if (ar[q] == '+') {
-            temp = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            answer.push_back(temp);
-            printf("q = %d ar[q] = %c\n",q,ar[q]);
-        }
-        else if (ar[q] == '0') {
-            temp = {0};
-            answer.push_back(temp);
-            printf("q = %d ar[q] = %c\n", q, ar[q]);
-        }
-        else {
-            temp = { -10,-9,-8,-7,-6,-5,-4,-3,-2,-1 };
-            answer.push_back(temp);
-            printf("q = %d ar[q] = %c\n", q, ar[q]);
-        }
-        q = q + t--;
+bool possible(int idx)
+{
+    int sum = 0;
+
+    for (int i = idx; i >= 0; i--)
+    {
+        sum += v[i];
+
+        if (map[i][idx] == '+' && sum <= 0)	return false;
+        if (map[i][idx] == '-' && sum >= 0)	return false;
+        if (map[i][idx] == '0' && sum != 0)	return false;
     }
-    for(int a = 0; a <)
-    return 0;
+    return true;
+}
+
+void solve(int idx)
+{
+    if (idx == num)
+    {
+        for (int i = 0; i < v.size(); i++)
+            cout << v[i] << " ";
+        exit(0);
+    }
+
+    for (int i = -10; i <= 10; i++)
+    {
+        v.push_back(i);
+
+        if (possible(idx))
+            solve(idx + 1);
+
+        v.pop_back();
+    }
+}
+
+int main(void)
+{
+    cin >> num;
+    string s;
+    cin >> s;
+
+    int idx = 0;
+
+    for (int i = 0; i < num; i++)
+    {
+        for (int j = i; j < num; j++)
+        {
+            map[i][j] = s[idx++];
+        }
+    }
+
+    solve(0);
+
 }
