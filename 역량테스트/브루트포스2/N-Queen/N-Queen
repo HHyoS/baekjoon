@@ -1,0 +1,23 @@
+#include <cstdio>
+#include <algorithm>
+using namespace std;
+
+bool map[16] = { 0 };
+int n = 0;
+void dfs(int deep) {
+    if (deep == n) {
+
+        return;
+    }
+    for(int a = )
+    return;
+}
+int main(){
+    scanf("%d", &n);
+    for (int a = 1; a <= n; ++a) {
+        
+        dfs(1);
+        map[a] = 0;
+    }
+    return 0;
+}
