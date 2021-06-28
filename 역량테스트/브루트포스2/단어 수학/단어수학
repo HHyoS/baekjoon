@@ -1,36 +1,32 @@
-#include <cstdio>
+#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <string>
 using namespace std;
 
 long long ans;
-long long N, arr[27];
-vector<long long> V;
+long long n, arr[27];
+vector<long long> v;
 string S;
-int N;
-int main(){
-	scanf("%d",&N);
-// 글자를 개수 생각해서 저장
-for (int i = 0; i < N; ++i){
-	scanf("%s",&S);
-	int cnt = 1;
-	for (int j = S.size()-1; j >=0; j--){
-		arr[S[j]-'A'] += cnt;
-		cnt*=10;
+int main() {
+	cin >> n;
+	for (int a = 0; a < n; ++a) {
+		cin >> S;
+		int cnt = 1;
+		for (int b = S.size() - 1; b >= 0; --b) {
+			arr[S[b] - 'A'] += cnt;
+			cnt *= 10;
+		}
 	}
-}
-// 각 글자수를 sort
-for (int i = 0; i < 27; ++i)
-	if(arr[i]!=0) V.push_back(arr[i]);	
-sort(V.begin(),V.end());
-// 글자수 많은게 높은 값을 갖게 함.
-int value = 9;
-for (int i = V.size()-1; i >= 0; i--){
-	ans += V[i]*value;
-	value--;
-}
-	printf("%d",ans);
+	for (int a = 0; a < 27; ++a)
+		if (arr[a] != 0) v.push_back(arr[a]);
+	sort(v.begin(), v.end());
+	int value = 9;
+	for (int a = v.size() - 1; a >= 0; a--) {
+		ans += v[a] * value;
+		value--;
+	}
+	cout << ans << endl;
 
-return 0;
+	return 0;
 }
