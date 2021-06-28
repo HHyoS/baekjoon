@@ -21,3 +21,36 @@ AAA
 예제 출력 1 
 1998
 
+코드 및 설명 :
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
+using namespace std;
+
+long long ans;
+long long n, arr[27];
+vector<long long> v;
+string S;
+int main() {
+	cin >> n; // 입력받을 숫자 갯수
+	for (int a = 0; a < n; ++a) {
+		cin >> S; // 입력받은 문자열조합
+		int cnt = 1;
+		for (int b = S.size() - 1; b >= 0; --b) {
+			arr[S[b] - 'A'] += cnt; 
+			cnt *= 10;
+		}
+	} // 특정 알파벳의 위치들을 찾아서 저장( ex> AABA라면 A의 위치는 0,2,3이므로 ((1 + 100) + 1000) = 1101로 저장하여 나중에 최대값을 구하는데 사용)
+	for (int a = 0; a < 27; ++a)
+		if (arr[a] != 0) v.push_back(arr[a]); // 특정알파벳이 사용중이라면 v배열에 저장
+	sort(v.begin(), v.end());  // v배열에 저장된 값을 sort 함수를 이용하여 가장 큰값부터 사용)
+	int value = 9;
+	for (int a = v.size() - 1; a >= 0; a--) {
+		ans += v[a] * value;
+		value--;
+	} // 값이 큰 순으로 9부터 0까지 입력하고 그 값을 ans값에 저장, 더하기 반복하여 값을 찾음
+	cout << ans << endl;
+
+	return 0;
+}
