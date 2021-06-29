@@ -1,51 +1,71 @@
-#include <cstdio>
-#include <cmath>
-#include <cstring>
-#include <string>
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
 using namespace std;
 
 
-int k;
-int v[20][20] = { 0, };
-bool check[20] = { 0, };
-int minn = 10001;
-void dfs(int index,int now) {
-    if (index == (k / 2)) {
-        int start = 0;
-        int link = 0;
-        for (int a = 0; a < k; ++a) {
-            for (int b = a + 1; b < k; ++b) {
-                if (check[a] && check[b])
-                    start += (v[a][b] + v[b][a]);
-                else if (!check[a] && !check[b])
-                    link += (v[a][b] + v[b][a]);
+
+int n;
+bool is_used[21];
+int s[21][21];
+int ans = 987654321;
+
+void Dfs(int curr_player, int cnt)
+{
+    if (cnt == n / 2)
+    {
+        vector<int> team_link, team_start;
+
+        for (int i = 0; i < n; i++)
+        {
+            if (is_used[i]) team_start.push_back(i);
+            else team_link.push_back(i);
+        }
+
+        int stat_start = 0, stat_link = 0;
+        for (int i = 0; i < team_start.size(); i++)
+        {
+            for (int j = i+1; j < team_start.size(); j++)
+            {
+                int start_x = team_start[i], start_y = team_start[j];
+                int link_x = team_link[i], link_y = team_link[j];
+                stat_start += s[start_x][start_y] + s[start_y][start_x];
+                stat_link += s[link_x][link_y] + s[link_y][link_x];
             }
         }
-        if (abs(start - link) < minn)
-            minn = abs(start - link);
+
+        ans = min(ans, abs(stat_start - stat_link));
         return;
     }
 
-    if (now + 1 < k) {
-        dfs(index, now + 1);
-        check[now] = 1;
-        dfs(index + 1, now + 1);
-        check[now] = 0;
-    }
-}
-int main() {
- //   freopen("input.txt", "r", stdin);
-    scanf("%d", &k);
-    for (int a = 0; a < k; ++a) {
-        for (int b = 0; b < k; ++b) {
-            scanf("%d", &v[a][b]);
+    for (int i = curr_player+1; i < n; i++)
+    {
+        if (is_used[i] == false)
+        {
+            is_used[i] = true;
+            Dfs(i, cnt + 1);
+            is_used[i] = false;
         }
     }
-    for (int a = 0; a <= k/2; ++a) {
-        check[a] = 1;
-        dfs(1,a+1);
-        check[a] = 0;
+
+}
+
+
+int main()
+{
+  scanf("%d",&n);
+    // 입력
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            scanf("%d",&s[i][j]);
+        }
     }
-    printf("%d", minn);
+
+    dfs(0,0);
+    printf("%d",ans);
+
     return 0;
 }
