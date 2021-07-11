@@ -22,7 +22,6 @@ void sudoku_slove(int row, int col) {
     int used_num_arr[9] = { 0 };
     vector<int> each_round_can_vec;
  
-    // 가로 세로 체크 
     for (int i = 0; i < 9; i++) {
         if (sudoku_arr[row][i])        used_num_arr[sudoku_arr[row][i] -1 ] = 1;
         if (sudoku_arr[i][col])        used_num_arr[sudoku_arr[i][col] -1 ] = 1;
@@ -45,18 +44,14 @@ void sudoku_slove(int row, int col) {
         if (!used_num_arr[i]) each_round_can_vec.push_back(i+1);
     }
  
-    // 사용되지 않은 숫자가 없으면 그냥 리턴하고, 있으면 해당 위치에 값을 넣고 재귀함수로 다음 단계로 간다. 
     if (!each_round_can_vec.size()) return;
  
  
-    //  다음 단계로 넘어간다. 
     int next_row=row, next_col=col;
     while (true) {
-        // 다음 컬럼이 9가 되면 
         if ((++next_col) == 9) {
             next_row++;
             next_col = 0;
-            // 만약 모든 수가 끝났다면, 프린트하고 종료한다. 
             if (next_row == 9) {
                 sudoku_arr[row][col] = each_round_can_vec[0];
                 print_sudoku();
